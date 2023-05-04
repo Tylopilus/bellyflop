@@ -1,11 +1,14 @@
 'use client';
-import { useLocalStorage } from '@/store';
-import { useMemo } from 'react';
+import { useLocalStorage, useStore } from '@/store';
 
 export default function ViewStores() {
-  const stores = useLocalStorage((state) => state.stores);
-  //
-  const renderStore = useMemo(() => {}, [stores]);
-  console.log(stores);
-  return <h1>haik</h1>;
+  const stores = useStore(useLocalStorage, (state) => state.stores);
+
+  return (
+    <div>
+      {stores.map((store) => (
+        <h1 key={store.name}>{store.name}</h1>
+      ))}
+    </div>
+  );
 }
