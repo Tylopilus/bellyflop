@@ -1,17 +1,27 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
 
-const useLocalStorage = create(
+type Store = {
+  name: string;
+  website: string;
+  coupons: any[];
+  iconUrl: string;
+};
+
+type ZustandState = {
+  stores: Store[];
+  setStore: (value: Store) => void;
+};
+
+const useLocalStorage = create<ZustandState>()(
   persist(
     (set) => ({
       stores: [],
-      setStore: (key: string, value: any) => {
-        set((state: any) => ({
-          stores: {
-            ...state.stores,
-            [key]: value,
-          },
-        }));
+      setStore: (value) => {
+        set((state) => {
+          state.stores.push(value);
+          return state;
+        });
       },
     }),
     {

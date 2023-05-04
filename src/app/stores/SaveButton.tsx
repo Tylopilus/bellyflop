@@ -7,8 +7,8 @@ import { MouseEvent as ReactMouseEvent, useState } from 'react';
 export default function SaveButton() {
   const router = useRouter();
   const [isPending, setPending] = useState(false);
-  const updateStores = useLocalStorage((state: any) => state.setStore);
-  const stores = useLocalStorage((state: any) => state.stores);
+  const updateStores = useLocalStorage((state) => state.setStore);
+  const stores = useLocalStorage((state) => state.stores);
 
   const storeData = async () => {
     const name = (
@@ -22,10 +22,11 @@ export default function SaveButton() {
     );
 
     console.log(stores, name, website, iconUrl);
-    await updateStores(name, {
+    await updateStores({
       name,
       website,
       iconUrl,
+      coupons: [],
     });
   };
   const clickHandler = async (
