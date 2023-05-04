@@ -72,7 +72,7 @@ export function Coupon({ coupon, store }: { coupon: Coupon; store: Store }) {
           <span>{coupon.type}</span>
         </div>
         <div>
-          <span>{coupon.expiresAt}</span>
+          <span>{new Date(coupon.expiresAt).toLocaleDateString()}</span>
         </div>
       </div>
       <div
