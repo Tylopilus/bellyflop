@@ -79,7 +79,7 @@ export function Coupon({ coupon, store }: { coupon: Coupon; store: Store }) {
         className="text-center grid transition-[grid-template-rows] duration-300 ease-in-out"
         style={{ gridTemplateRows: show ? '1fr' : '0fr' }}>
         <div className="overflow-hidden">
-          <div className="px-4 py-2 ">{coupon.description}</div>
+          <div className="px-4 py-2">{coupon.description}</div>
           <button
             className="bg-alert text-white rounded-md max-w-fit px-4 py-2 my-4"
             onClick={() => {
