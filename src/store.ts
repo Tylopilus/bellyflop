@@ -1,26 +1,72 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type Store = {
+export type Coupon = {
+  id: string;
+  discountValue: string;
+  description: string;
+  expiresAt: string;
+  code: string;
+  type: string;
+};
+
+export type Store = {
   name: string;
   website: string;
-  coupons: any[];
+  coupons: Coupon[];
   iconUrl: string;
 };
 
 type ZustandState = {
   stores: Store[];
   setStore: (value: Store) => void;
+  deleteStore: (value: Store) => void;
+  deleteCoupon: (coupon: Coupon, store: Store) => void;
+  getStore: (store: Store) => Store | undefined;
+  addCoupon: (coupon: Coupon, store: Store) => void;
 };
 
 const useLocalStorage = create<ZustandState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       stores: [],
       setStore: (value) => {
         set((state) => {
           state.stores.push(value);
           return state;
+        });
+      },
+      deleteStore: (value) => {
+        set((state) => {
+          state.stores = state.stores.filter(
+            (store) => store.name !== value.name
+          );
+          return { ...state };
+        });
+      },
+      deleteCoupon: (coupon, store) => {
+        set((state) => {
+          state.stores = state.stores.map((s) => {
+            if (s.name === store.name) {
+              s.coupons = s.coupons.filter((c) => c.id !== coupon.id);
+            }
+            return s;
+          });
+          return { ...state };
+        });
+      },
+      getStore: (store) => {
+        return get().stores.find((s) => s.name === store.name);
+      },
+      addCoupon: (coupon, store) => {
+        set((state) => {
+          state.stores = state.stores.map((s) => {
+            if (s.name === store.name) {
+              s.coupons.push(coupon);
+            }
+            return s;
+          });
+          return { ...state };
         });
       },
     }),
@@ -44,5 +90,5 @@ export const useStore = <T, F>(
     setData(result);
   }, [result]);
 
-  return data || [];
+  return data;
 };

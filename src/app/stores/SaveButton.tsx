@@ -26,7 +26,16 @@ export default function SaveButton() {
       name,
       website,
       iconUrl,
-      coupons: [],
+      coupons: [
+        {
+          id: '1',
+          discountValue: '10%',
+          type: 'Drogerieprodukte',
+          code: 'abc',
+          expiresAt: '2021-12-31',
+          description: 'tolle Wurst',
+        },
+      ],
     });
   };
   const clickHandler = async (
