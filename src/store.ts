@@ -19,21 +19,27 @@ export type Store = {
 
 type ZustandState = {
   stores: Store[];
+  search: string;
+  filterdStores: Store[];
   setStore: (value: Store) => void;
   deleteStore: (value: Store) => void;
   deleteCoupon: (coupon: Coupon, store: Store) => void;
-  getStore: (store: Store) => Store | undefined;
   addCoupon: (coupon: Coupon, store: Store) => void;
+  setFilter: (searchString: string) => void;
+  setSearch: (searchString: string) => void;
 };
 
 const useLocalStorage = create<ZustandState>()(
   persist(
     (set, get) => ({
       stores: [],
+      search: '',
+      filterdStores: [],
       setStore: (value) => {
         set((state) => {
-          state.stores.push(value);
-          return state;
+          state.stores = [...state.stores, value];
+          // state.stores.push(value);
+          return { ...state };
         });
       },
       deleteStore: (value) => {
@@ -55,9 +61,6 @@ const useLocalStorage = create<ZustandState>()(
           return { ...state };
         });
       },
-      getStore: (store) => {
-        return get().stores.find((s) => s.name === store.name);
-      },
       addCoupon: (coupon, store) => {
         set((state) => {
           state.stores = state.stores.map((s) => {
@@ -67,6 +70,38 @@ const useLocalStorage = create<ZustandState>()(
             return s;
           });
           return { ...state };
+        });
+      },
+      setFilter(searchStr = '') {
+        set(({ filterdStores }) => {
+          filterdStores = get().stores;
+          if (searchStr === '') {
+            return { ...get(), filterdStores };
+          }
+
+          const filters = filterdStores.map((store) => {
+            const coups = store.coupons.filter((coupon) => {
+              return (
+                coupon.type.includes(searchStr) ||
+                coupon.code.includes(searchStr) ||
+                coupon.description.includes(searchStr) ||
+                coupon.discountValue.includes(searchStr)
+              );
+            });
+            return { ...store, coupons: coups };
+          });
+
+          const storeFilters = filterdStores.filter((store) => {
+            return store.name.includes(searchStr);
+          });
+
+          filters.push(...storeFilters);
+          return { ...get(), filterdStores: filters };
+        });
+      },
+      setSearch(searchStr = '') {
+        set(({ search }) => {
+          return { ...get(), search: searchStr };
         });
       },
     }),
@@ -88,6 +123,7 @@ export const useStore = <T, F>(
 
   useEffect(() => {
     setData(result);
+    useLocalStorage.getState().setFilter('');
   }, [result]);
 
   return data;

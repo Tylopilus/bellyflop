@@ -12,12 +12,12 @@ export default function AddCoupon({
   const [isPending, setPending] = useState(false);
   const router = useRouter();
   const id = useId();
-  const addCoupon = useLocalStorage((state) => state.addCoupon);
+  const addCouponToStore = useLocalStorage((state) => state.addCoupon);
   const store = useLocalStorage((state) =>
     state.stores.find((store) => store.name === storeParam)
   );
 
-  const clickHandler = async (
+  const addCoupon = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
@@ -29,10 +29,11 @@ export default function AddCoupon({
       data[input.name] = input.value;
     }
     setPending(true);
-    await addCoupon(data as Coupon, store!);
+    await addCouponToStore(data as Coupon, store!);
     router.push('/');
     setPending(false);
   };
+
   return (
     <main className="mx-auto px-4">
       <header className="bg-theme-gradient pb-8 pt-2 mt-8">
@@ -98,7 +99,7 @@ export default function AddCoupon({
       <section>
         <button
           className="px-8 py-4 text-lg block max-w-fit mx-auto bg-theme-medium rounded-md mt-6 mb-12"
-          onClick={clickHandler}>
+          onClick={addCoupon}>
           Speichern {isPending && '...'}
         </button>
       </section>

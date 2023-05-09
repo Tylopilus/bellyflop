@@ -5,7 +5,9 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 export default function ViewStores() {
+  // const stores = useStore(useLocalStorage, (state) => state.stores) || [];
   const stores = useStore(useLocalStorage, (state) => state.stores) || [];
+  const search = useLocalStorage((state) => state.search);
   return (
     <div className="mt-8 grid gap-12">
       {stores.map((store) => (
@@ -43,6 +45,17 @@ export default function ViewStores() {
           <Coupons store={store} />
         </div>
       ))}
+      <button
+        onClick={() => {
+          useLocalStorage.getState().setStore({
+            name: 'test',
+            iconUrl: 'https://www.google.com',
+            coupons: [],
+            website: 'https://www.google.com',
+          });
+        }}>
+        Reset
+      </button>
     </div>
   );
 }
