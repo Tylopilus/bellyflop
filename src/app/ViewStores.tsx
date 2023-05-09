@@ -7,7 +7,6 @@ import { useState } from 'react';
 export default function ViewStores() {
   // const stores = useStore(useLocalStorage, (state) => state.stores) || [];
   const stores = useStore(useLocalStorage, (state) => state.stores) || [];
-  const search = useLocalStorage((state) => state.search);
   return (
     <div className="mt-8 grid gap-12">
       {stores.map((store) => (
@@ -47,10 +46,9 @@ export default function ViewStores() {
       ))}
       <button
         onClick={() => {
-          useLocalStorage.getState().setStore({
+          useLocalStorage.getState().addStore({
             name: 'test',
             iconUrl: 'https://www.google.com',
-            coupons: [],
             website: 'https://www.google.com',
           });
         }}>
@@ -61,9 +59,10 @@ export default function ViewStores() {
 }
 
 export function Coupons({ store }: { store: Store }) {
+  const coupons = useLocalStorage((state) => state.getCoupons(store));
   return (
     <div className="flex flex-col gap-1 mt-2">
-      {store.coupons.map((coupon) => (
+      {coupons.map((coupon) => (
         <Coupon key={coupon.code} coupon={coupon} store={store} />
       ))}
     </div>

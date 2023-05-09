@@ -22,14 +22,15 @@ export default function AddCoupon({
   ) => {
     e.preventDefault();
     const inputElements = document.querySelectorAll('input');
-    const data: any = {
+    const data: Partial<Coupon> = {
       id,
     };
     for (const input of inputElements) {
       data[input.name] = input.value;
     }
+    data.store = store;
     setPending(true);
-    await addCouponToStore(data as Coupon, store!);
+    await addCouponToStore(data as Coupon);
     router.push('/');
     setPending(false);
   };
