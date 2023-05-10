@@ -44,16 +44,6 @@ export default function ViewStores() {
           <Coupons store={store} />
         </div>
       ))}
-      <button
-        onClick={() => {
-          useLocalStorage.getState().addStore({
-            name: 'test',
-            iconUrl: 'https://www.google.com',
-            website: 'https://www.google.com',
-          });
-        }}>
-        Reset
-      </button>
     </div>
   );
 }
@@ -95,7 +85,7 @@ export function Coupon({ coupon, store }: { coupon: Coupon; store: Store }) {
           <button
             className="bg-alert text-white rounded-md max-w-fit px-4 py-2 my-4"
             onClick={() => {
-              deleteCoupon(coupon, store);
+              deleteCoupon(coupon);
             }}>
             Loeschen
           </button>

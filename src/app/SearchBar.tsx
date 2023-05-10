@@ -4,7 +4,6 @@ import { useStore, useLocalStorage } from '@/store';
 
 export function SearchBar() {
   const setFilter = useLocalStorage((state) => state.setFilter);
-  const setSearch = useLocalStorage((state) => state.setSearch);
   return (
     <>
       <input
@@ -13,7 +12,6 @@ export function SearchBar() {
         className="bg-theme-medium rounded-sm w-full text-2xl placholder-[#5A5A5A] text-white focus:outline-none focus-within:ring-2 focus-within:ring-theme-light focus-within:ring-opacity-50"
         onChange={(e) => {
           setFilter(e.target.value);
-          // setSearch(e.target.value);
         }}
       />
       <svg

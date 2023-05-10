@@ -17,6 +17,11 @@ export default function AddCoupon({
     state.stores.find((store) => store.name === storeParam)
   );
 
+  if (!store || !storeParam) {
+    // router.push('/');
+    return null;
+  }
+
   const addCoupon = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -24,6 +29,7 @@ export default function AddCoupon({
     const inputElements = document.querySelectorAll('input');
     const data: Partial<Coupon> = {
       id,
+      store,
     };
     for (const input of inputElements) {
       data[input.name] = input.value;
