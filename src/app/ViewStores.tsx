@@ -59,7 +59,7 @@ export function Coupons({ store }: { store: Store }) {
   );
 }
 
-export function Coupon({ coupon}: { coupon: Coupon}) {
+export function Coupon({ coupon }: { coupon: Coupon }) {
   const deleteCoupon = useLocalStorage((state) => state.deleteCoupon);
   const [show, setShow] = useState(false);
   return (
