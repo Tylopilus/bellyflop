@@ -1,6 +1,6 @@
 'use client';
 
-import { Coupon, Store, useLocalStorage } from '@/store';
+import { Coupon,  useLocalStorage } from '@/store';
 import { useRouter } from 'next/navigation';
 import { useId, useState } from 'react';
 
@@ -18,7 +18,6 @@ export default function AddCoupon({
   );
 
   if (!store || !storeParam) {
-    // router.push('/');
     return null;
   }
 
@@ -32,11 +31,11 @@ export default function AddCoupon({
       store,
     };
     for (const input of inputElements) {
-      data[input.name] = input.value;
+      data[input.name as keyof Omit<Coupon, 'store'>] = input.value;
     }
     data.store = store;
     setPending(true);
-    await addCouponToStore(data as Coupon);
+    addCouponToStore(data as Coupon);
     router.push('/');
     setPending(false);
   };
