@@ -53,13 +53,13 @@ export function Coupons({ store }: { store: Store }) {
   return (
     <div className="flex flex-col gap-1 mt-2">
       {coupons.map((coupon) => (
-        <Coupon key={coupon.code} coupon={coupon} store={store} />
+        <Coupon key={coupon.code} coupon={coupon} />
       ))}
     </div>
   );
 }
 
-export function Coupon({ coupon, store }: { coupon: Coupon; store: Store }) {
+export function Coupon({ coupon}: { coupon: Coupon}) {
   const deleteCoupon = useLocalStorage((state) => state.deleteCoupon);
   const [show, setShow] = useState(false);
   return (
