@@ -1,6 +1,6 @@
 'use client';
 
-import { useStore, useLocalStorage } from '@/store';
+import { useLocalStorage } from '@/store';
 
 export function SearchBar() {
   const setFilter = useLocalStorage((state) => state.setFilter);
