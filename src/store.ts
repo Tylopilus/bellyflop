@@ -67,7 +67,8 @@ const useLocalStorage = create<ZustandState>()(
           (coupon) => coupon.store.name === store.name
         );
       },
-      setFilter(searchStr): void {
+      setFilter(InputSearchStr): void {
+        const searchStr = InputSearchStr.toLowerCase();
         set((state): ZustandState => {
           if (searchStr === '') {
             return { ...state, coupons: [...state.backupCoupons] };
